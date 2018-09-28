@@ -10,7 +10,8 @@ class Blog extends Component {
 
     state = {
         posts: [],
-        selectedPostId: null
+        selectedPostId: null,
+        error: false
     }
 
     componentDidMount() {
@@ -19,7 +20,7 @@ class Blog extends Component {
                 const posts = response.data.slice(0, 4);
                 const updatedPosts = posts.map(post => ({...post, 'author': 'Max'}));
                 this.setState({posts: updatedPosts});
-            });
+            }).catch(error => this.setState({error: true}))
     }
 
     postSelectedHandler = (postId) => {
@@ -27,8 +28,12 @@ class Blog extends Component {
     }
 
     render () {
-        const posts = this.state.posts.map(post => <Post key={post.id} title={post.title} 
+        let posts = <p style={{textAlign: 'center'}}>Something went wrong !</p>
+        if (!this.state.error) {
+            posts = this.state.posts.map(post => <Post key={post.id} title={post.title} 
                                                          author={post.author} onClick={() => this.postSelectedHandler(post.id)} />)
+        }
+
         return (
             <div>
                 <section className="Posts">
