@@ -3,7 +3,7 @@ import './Blog.css';
 import Posts from './Posts/Posts';
 import NewPost from '../NewPost/NewPost';
 
-import { Route, NavLink } from 'react-router-dom';
+import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 class Blog extends Component {  
 
@@ -13,13 +13,18 @@ class Blog extends Component {
                 <header>
                     <nav>
                         <ul>
-                            <li><NavLink to='/' exact>Home</NavLink></li>
+                            <li><NavLink to='/posts' exact>Posts</NavLink></li>
                             <li><NavLink to='/new-post'>New Post</NavLink></li>
                         </ul>
                     </nav>
                 </header>
-                <Route path='/' component={Posts} exact />
-                <Route path='/new-post' component={NewPost} />
+                <Switch>
+                    <Route path='/new-post' component={NewPost} />                    
+                    <Route path='/posts' component={Posts} />
+                    <Route render={() => <h1>Not Found !</h1>} />
+                    {/* <Redirect from='/' to='/posts' /> */}
+                </Switch>
+                
             </div>
         );
     }

@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 
 import './NewPost.css';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class NewPost extends Component {
     state = {
         title: '',
         content: '',
-        author: 'Max'
+        author: 'Max',
     }
 
     postDataHandler = () => {
@@ -15,7 +16,7 @@ class NewPost extends Component {
             ...this.state
         };
         axios.post('https://jsonplaceholder.typicode.com/posts', post)
-            .then(response => console.log(response));
+            .then(response => this.props.history.push('/posts'));
     }
 
     render () {

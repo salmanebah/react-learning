@@ -9,23 +9,31 @@ class FullPost extends Component {
         loadedPost: null
     }
 
+    componentDidMount() {
+        this.loadData();
+    }
+
     componentDidUpdate() {
-        if (this.props.id !== null) {
-            if ((this.state.loadedPost === null ) || (this.state.loadedPost !== null && this.state.loadedPost.id !== this.props.id)) {
-                axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`)
+        this.loadData();
+    }
+
+    loadData() {
+        if (this.props.match.params.id !== null) {
+            if ((this.state.loadedPost === null ) || (this.state.loadedPost !== null && this.state.loadedPost.id != this.props.match.params.id)) {
+                axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.match.params.id}`)
                 .then(response => this.setState({loadedPost: response.data}));
             }
         }
     }
 
     handleDeletePost = () => {
-        axios.delete(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`)
+        axios.delete(`https://jsonplaceholder.typicode.com/posts/${this.props.match.params.id}`)
             .then(response => console.log(response));
     }
 
     render () {
         let post = <p style={{textAlign: 'center'}}>Please select a Post!</p>;
-        if (this.props.id !== null) {
+        if (this.props.match.params.id !== null) {
             post = <p style={{textAlign: 'center'}}>Loading...</p>;
         }
         if (this.state.loadedPost !== null) {
