@@ -7,6 +7,8 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -27,9 +29,9 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount() {
-        axios.get('/ingredients.json')
+       /*  axios.get('/ingredients.json')
             .then(response => this.setState({ingredients: response.data}))
-            .catch(error => this.setState({error: true}));
+            .catch(error => this.setState({error: true})); */
     }
 
     updatePurchaseState = (ingredients) => {
@@ -139,6 +141,19 @@ class BurgerBuilder extends Component {
                 {burger}
             </Aux>
         )
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        ingredients: state.ingredients
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onIngredientAdded: (ingredientName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName}),
+        onIngredientRemoved: (ingredientName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName})
     }
 }
 
