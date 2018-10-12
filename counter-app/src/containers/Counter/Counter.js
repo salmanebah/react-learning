@@ -2,31 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
-import * as actionTypes from '../../store/actions';
+import {increment, decrement, add, substract, storeResult, deleteResult } from '../../store/actions/actions';
 
 class Counter extends Component {
-    state = {
-        counter: 0,
-        result: []
-    }
-
-    counterChangedHandler = ( action, value ) => {
-        switch ( action ) {
-            case 'inc':
-                this.setState( ( prevState ) => { return { counter: prevState.counter + 1 } } )
-                break;
-            case 'dec':
-                this.setState( ( prevState ) => { return { counter: prevState.counter - 1 } } )
-                break;
-            case 'add':
-                this.setState( ( prevState ) => { return { counter: prevState.counter + value } } )
-                break;
-            case 'sub':
-                this.setState( ( prevState ) => { return { counter: prevState.counter - value } } )
-                break;
-        }
-    }
-
     render () {
         return (
             <div>
@@ -58,12 +36,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onIncrementCounter: () => dispatch({type: actionTypes.INCREMENT}),
-        onDecrementCounter: () => dispatch({type: actionTypes.DECREMENT}),
-        onAddCounter: (step) => dispatch({type: actionTypes.ADD, step}),
-        onSubstractCounter: (step) => dispatch({type: actionTypes.SUBSTRACT, step}),
-        onStoredResult: (currentValue) => dispatch({type: actionTypes.STORE_RESULT, currentValue}),
-        onDeletedResult: (id) => dispatch({type: actionTypes.DELETE_RESULT, id})
+        onIncrementCounter: () => dispatch(increment()),
+        onDecrementCounter: () => dispatch(decrement()),
+        onAddCounter: (step) => dispatch(add(step)),
+        onSubstractCounter: (step) => dispatch(substract(step)),
+        onStoredResult: (currentValue) => dispatch(storeResult(currentValue)),
+        onDeletedResult: (id) => dispatch(deleteResult(id))
     }
 }
 
