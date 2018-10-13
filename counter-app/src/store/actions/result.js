@@ -1,7 +1,8 @@
+import * as actionTypes from './actionTypes';
 
 export const storeResult = (currentValue) => {
     return {
-        type: STORE_RESULT,
+        type: actionTypes.STORE_RESULT,
         currentValue
     }
 }
@@ -16,7 +17,7 @@ export const storeResultAsync = (currentValue) => {
 
 export const deleteResult = (id) => {
     return {
-        type: DELETE_RESULT,
+        type: actionTypes.DELETE_RESULT,
         id
     }
 }
