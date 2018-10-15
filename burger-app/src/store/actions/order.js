@@ -22,9 +22,47 @@ const purchaseBurgerFail = (error) => {
     }
 }
 
+const fetchOrdersStart = () => {
+    return {
+        type: actionTypes.FETCH_ORDERS_START
+    }
+}
+
+const fetchOrdersSuccess = (orders) => {
+    return {
+        type: actionTypes.FETCH_ORDERS_SUCCESS,
+        orders
+    }
+}
+
+const fetchOrdersFail = (error) => {
+    return {
+        type: actionTypes.FETCH_ORDERS_FAIL,
+        error
+    }
+}
+
 export const purchaseInit = () => {
     return {
         type: actionTypes.PURCHASE_INIT
+    }
+}
+
+export const fetchOrdersAsync = () => {
+    return (dispatch) => {
+        dispatch(fetchOrdersStart());
+        axios.get('/orders.json')
+            .then(response => {
+                let normalizedOrders = [];
+                for (let key in response.data) {
+                    normalizedOrders.push({
+                        ...response.data[key],
+                        id: key
+                    })
+                }
+                dispatch(fetchOrdersSuccess(normalizedOrders))
+            })
+            .catch(error => dispatch(fetchOrdersFail(error)));
     }
 }
 

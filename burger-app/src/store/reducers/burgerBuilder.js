@@ -52,6 +52,7 @@ const initIngredients = (state, action) => {
             cheese: action.ingredients.cheese,
             meat: action.ingredients.meat
         },
+        price: 4,
         error: false
     }
 }
