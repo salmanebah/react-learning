@@ -24,10 +24,12 @@ const authFail = (error) => {
     }
 }
 
-export const authenticateAsync = (email, password) => {
+export const authenticateAsync = (email, password, isSignup) => {
+    let method = isSignup ? 'signupNewUser' : 'verifyPassword';
+
     return (dispatch) => {
         dispatch(authStart());
-        axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${API_KEY}`, {
+        axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/${method}?key=${API_KEY}`, {
             email,
             password,
             returnSecureToken: true
