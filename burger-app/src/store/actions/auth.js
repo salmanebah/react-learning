@@ -17,10 +17,24 @@ const authSuccess = (authData) => {
     }
 }
 
+const logout = () => {
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    }
+}
+
 const authFail = (error) => {
     return {
         type: actionTypes.AUTH_FAIL,
         error
+    }
+}
+
+const checkAuthTimeoutAsync = (expirationTime) => {
+    return (dispatch) => {
+        setTimeout(() => {
+            dispatch(logout());
+        }, expirationTime * 1000);
     }
 }
 
@@ -33,8 +47,11 @@ export const authenticateAsync = (email, password, isSignup) => {
             email,
             password,
             returnSecureToken: true
-        }).then(response => dispatch(authSuccess(response.data)))
-          .catch(error => dispatch(authFail(error)));
+        }).then(response => {
+            dispatch(authSuccess(response.data));
+            dispatch(checkAuthTimeoutAsync(response.data.expiresIn));
+        })
+        .catch(error => dispatch(authFail(error.response.data.error)));
        
     }
 }
