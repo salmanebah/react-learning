@@ -17,7 +17,7 @@ const authSuccess = (authData) => {
     }
 }
 
-const logout = () => {
+export const logout = () => {
     return {
         type: actionTypes.AUTH_LOGOUT
     }
